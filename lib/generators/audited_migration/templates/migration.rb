@@ -1,4 +1,4 @@
-class <%= class_name %> < ActiveRecord::Migration
+class ActsAsAuditedMigration < ActiveRecord::Migration
   def self.up
     create_table :audits, :force => true do |t|
       t.column :created_at, :datetime
