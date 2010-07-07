@@ -1,6 +1,8 @@
 class <%= class_name %> < ActiveRecord::Migration
   def self.up
     create_table :audits, :force => true do |t|
+      t.column :created_at, :datetime
+      t.column :updated_at, :datetime
       t.column :auditable_id, :integer
       t.column :auditable_type, :string
       t.column :user_id, :integer
@@ -10,8 +12,8 @@ class <%= class_name %> < ActiveRecord::Migration
       t.column :changes, :text
       t.column :version, :integer, :default => 0
       t.column :comment, :string
-      t.column :created_at, :datetime
     end
+    execute 'ALTER TABLE audits ADD COLUMN full_model longtext collate utf8_unicode_ci'
     
     add_index :audits, [:auditable_id, :auditable_type], :name => 'auditable_index'
     add_index :audits, [:user_id, :user_type], :name => 'user_index'
