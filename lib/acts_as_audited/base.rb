@@ -208,19 +208,19 @@ module CollectiveIdea #:nodoc:
         end
 
         def audit_create
-          write_audit(:action => 'create', :changes => audited_attributes, 
+          write_audit(:action => 'create', :audit_changes => audited_attributes, 
             :comment => audit_comment)
         end
 
         def audit_update
           unless (changes = audited_changes).empty?
-            write_audit(:action => 'update', :changes => changes, 
+            write_audit(:action => 'update', :audit_changes => changes, 
               :comment => audit_comment)
           end
         end
 
         def audit_destroy
-          write_audit(:action => 'destroy', :changes => audited_attributes,
+          write_audit(:action => 'destroy', :audit_changes => audited_attributes,
             :comment => audit_comment)
         end
 

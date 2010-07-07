@@ -94,7 +94,7 @@ ActiveRecord model
 <li><tt>action</tt>: one of create, update, or delete
 
 </li>
-<li><tt>changes</tt>: a serialized hash of all the changes
+<li><tt>audit_changes</tt>: a serialized hash of all the changes
 
 </li>
 <li><tt>created_at</tt>: Time that the change was performed
@@ -327,7 +327,7 @@ Returns a hash of the changed attributes with the new values
 <pre>
     <span class="ruby-comment cmt"># File lib/acts_as_audited/audit.rb, line 71</span>
 71:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">new_attributes</span>
-72:     (<span class="ruby-identifier">changes</span> <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">inject</span>({}.<span class="ruby-identifier">with_indifferent_access</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attrs</span>,(<span class="ruby-identifier">attr</span>,<span class="ruby-identifier">values</span>)<span class="ruby-operator">|</span>
+72:     (<span class="ruby-identifier">audit_changes</span> <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">inject</span>({}.<span class="ruby-identifier">with_indifferent_access</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attrs</span>,(<span class="ruby-identifier">attr</span>,<span class="ruby-identifier">values</span>)<span class="ruby-operator">|</span>
 73:       <span class="ruby-identifier">attrs</span>[<span class="ruby-identifier">attr</span>] = <span class="ruby-constant">Array</span>(<span class="ruby-identifier">values</span>).<span class="ruby-identifier">last</span>
 74:       <span class="ruby-identifier">attrs</span>
 75:     <span class="ruby-keyword kw">end</span>
@@ -356,7 +356,7 @@ Returns a hash of the changed attributes with the old values
 <pre>
     <span class="ruby-comment cmt"># File lib/acts_as_audited/audit.rb, line 79</span>
 79:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">old_attributes</span>
-80:     (<span class="ruby-identifier">changes</span> <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">inject</span>({}.<span class="ruby-identifier">with_indifferent_access</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attrs</span>,(<span class="ruby-identifier">attr</span>,<span class="ruby-identifier">values</span>)<span class="ruby-operator">|</span>
+80:     (<span class="ruby-identifier">audit_changes</span> <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">inject</span>({}.<span class="ruby-identifier">with_indifferent_access</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attrs</span>,(<span class="ruby-identifier">attr</span>,<span class="ruby-identifier">values</span>)<span class="ruby-operator">|</span>
 81:       <span class="ruby-identifier">attrs</span>[<span class="ruby-identifier">attr</span>] = <span class="ruby-constant">Array</span>(<span class="ruby-identifier">values</span>).<span class="ruby-identifier">first</span>
 82:       <span class="ruby-identifier">attrs</span>
 83:     <span class="ruby-keyword kw">end</span>

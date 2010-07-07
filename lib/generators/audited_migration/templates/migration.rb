@@ -9,7 +9,7 @@ class ActsAsAuditedMigration < ActiveRecord::Migration
       t.column :user_type, :string
       t.column :username, :string
       t.column :action, :string
-      t.column :changes, :text
+      t.column :audit_changes, :text
       t.column :version, :integer, :default => 0
       t.column :comment, :string
     end
