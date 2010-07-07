@@ -13,8 +13,11 @@ class ActsAsAuditedMigration < ActiveRecord::Migration
       t.column :version, :integer, :default => 0
       t.column :comment, :string
     end
-    execute 'ALTER TABLE audits ADD COLUMN full_model longtext collate utf8_unicode_ci'
-    
+    if connection.adapter_name =~ /mysql/i
+      execute 'ALTER TABLE audits ADD COLUMN full_model longtext collate utf8_unicode_ci' 
+    else
+      add_column :audits, :full_model, :text
+    end
     add_index :audits, [:auditable_id, :auditable_type], :name => 'auditable_index'
     add_index :audits, [:user_id, :user_type], :name => 'user_index'
     add_index :audits, :created_at  

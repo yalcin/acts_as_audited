@@ -232,9 +232,6 @@ module CollectiveIdea #:nodoc:
         def write_audit(attrs)
           self.audit_comment = nil
 
-          request_tracking_id = "#{Audit.logged_in_user_id}_#{Audit.request_timestamp.to_i}_#{Process.pid}"
-          attrs[:request_tracking_id] = request_tracking_id if request_tracking_id
-          
           if auditing_full_model_enabled
             # Grab all the object attributes and dump them into a Map, then turn the map into YAML and store in the Audit table
             self.class.reflect_on_all_associations.each {|assn| self.send assn.name.to_sym} # Load up all associations to store in the full_model serialization
