@@ -235,7 +235,11 @@ module CollectiveIdea #:nodoc:
           if auditing_full_model_enabled
             # Grab all the object attributes and dump them into a Map, then turn the map into YAML and store in the Audit table
             self.class.reflect_on_all_associations.each {|assn| self.send assn.name.to_sym} # Load up all associations to store in the full_model serialization
-            ignore_properties = full_model_disabled_properties.map {|prop| "@#{prop.to_s}"}
+            ignore_properties = if full_model_disabled_properties
+              full_model_disabled_properties.map {|prop| "@#{prop.to_s}"}
+            else
+              []
+            end
             props = (self.to_yaml_properties.map{|y| y.strip} - ignore_properties)
             attributes_map = props.inject({}) do |acc, name| 
               name = name.gsub /@/, ''
