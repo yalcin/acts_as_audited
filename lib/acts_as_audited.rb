@@ -66,10 +66,17 @@ module CollectiveIdea #:nodoc:
         #       acts_as_audited :protect => false
         #       attr_accessible :name
         #     end
+        # * +full_model_enabled+ - in YAML, save the current state of the record to the audits table
+        # * +full_model_enabled+ - in YAML, save the current state of the record to the audits table
         #
         def acts_as_audited(options = {})
           # don't allow multiple calls
           return if self.included_modules.include?(CollectiveIdea::Acts::Audited::InstanceMethods)
+
+          class_inheritable_reader :auditing_full_model_enabled
+          write_inheritable_attribute :auditing_full_model_enabled, (false || options[:full_model_enabled])
+          class_inheritable_reader :full_model_disabled_properties
+          write_inheritable_attribute :full_model_disabled_properties, (false || options[:full_model_disabled_properties])
 
           options = {:protect => accessible_attributes.nil?}.merge(options)
 
@@ -217,8 +224,35 @@ module CollectiveIdea #:nodoc:
             :comment => audit_comment)
         end
 
+        # Note- with to_yaml it's easy to get into some sort of recursion issues.  If you see something like:
+        #    yaml TypeError: wrong argument type nil (expected Data)
+        # check to see what other model objects are being pulled in; you may want to limit them.  For example, the RequestProgram was pulling in 
+        # request as an attribute.  This caused issues.  I solved this by adding not pulling in request_programs into YAML via the to_yaml_properties_with_specific method.
+        # In general, you want to stay away from linking objects like RequestProgram and instead use one that list programs.
         def write_audit(attrs)
           self.audit_comment = nil
+
+          request_tracking_id = "#{Audit.logged_in_user_id}_#{Audit.request_timestamp.to_i}_#{Process.pid}"
+          attrs[:request_tracking_id] = request_tracking_id if request_tracking_id
+          
+          if auditing_full_model_enabled
+            # Grab all the object attributes and dump them into a Map, then turn the map into YAML and store in the Audit table
+            self.class.reflect_on_all_associations.each {|assn| self.send assn.name.to_sym} # Load up all associations to store in the full_model serialization
+            ignore_properties = full_model_disabled_properties.map {|prop| "@#{prop.to_s}"}
+            props = (self.to_yaml_properties.map{|y| y.strip} - ignore_properties)
+            attributes_map = props.inject({}) do |acc, name| 
+              name = name.gsub /@/, ''
+              if self.respond_to? name.to_sym
+                val = self.send name.to_sym
+                unless val.blank? || (val.is_a?(Array) && val.empty?)
+                  acc[name.to_sym] = val 
+                end
+              end
+              acc
+            end
+            attrs[:full_model] = attributes_map.to_yaml
+          end
+          
           self.audits.create attrs if auditing_enabled
         end
   
