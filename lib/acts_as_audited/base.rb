@@ -75,8 +75,6 @@ module CollectiveIdea #:nodoc:
 
           class_inheritable_reader :auditing_full_model_enabled
           write_inheritable_attribute :auditing_full_model_enabled, (false || options[:full_model_enabled])
-          class_inheritable_reader :full_model_disabled_properties
-          write_inheritable_attribute :full_model_disabled_properties, (false || options[:full_model_disabled_properties])
 
           options = {:protect => accessible_attributes.nil?}.merge(options)
 
@@ -235,8 +233,8 @@ module CollectiveIdea #:nodoc:
           if auditing_full_model_enabled
             # Grab all the object attributes and dump them into a Map, then turn the map into YAML and store in the Audit table
             self.class.reflect_on_all_associations.each {|assn| self.send assn.name.to_sym} # Load up all associations to store in the full_model serialization
-            ignore_properties = if full_model_disabled_properties
-              full_model_disabled_properties.map {|prop| "@#{prop.to_s}"}
+            ignore_properties = if non_audited_columns
+              non_audited_columns.map {|prop| "@#{prop.to_s}"}
             else
               []
             end
