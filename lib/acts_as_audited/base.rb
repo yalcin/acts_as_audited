@@ -249,6 +249,8 @@ module CollectiveIdea #:nodoc:
               end
               acc
             end
+            attributes_map[:attributes] = self.attributes.except(*non_audited_columns)
+            
             attrs[:full_model] = attributes_map.to_yaml
           end
           
