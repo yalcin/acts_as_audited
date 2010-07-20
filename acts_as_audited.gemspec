@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Brandon Keepers"]
-  s.date = %q{2010-04-03}
+  s.date = %q{2010-07-20}
   s.email = %q{brandon@opensoul.org}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -23,14 +23,30 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "acts_as_audited.gemspec",
-     "generators/audited_migration/USAGE",
-     "generators/audited_migration/audited_migration_generator.rb",
-     "generators/audited_migration/templates/migration.rb",
-     "init.rb",
+     "doc/classes/Audit.html",
+     "doc/classes/CollectiveIdea/Acts/Audited/ClassMethods.html",
+     "doc/classes/CollectiveIdea/Acts/Audited/InstanceMethods.html",
+     "doc/classes/CollectiveIdea/Acts/Audited/SingletonMethods.html",
+     "doc/created.rid",
+     "doc/files/README.html",
+     "doc/files/lib/acts_as_audited/audit_rb.html",
+     "doc/files/lib/acts_as_audited/audit_sweeper_rb.html",
+     "doc/files/lib/acts_as_audited_rb.html",
+     "doc/fr_class_index.html",
+     "doc/fr_file_index.html",
+     "doc/fr_method_index.html",
+     "doc/index.html",
+     "doc/rdoc-style.css",
      "lib/acts_as_audited.rb",
      "lib/acts_as_audited/audit.rb",
      "lib/acts_as_audited/audit_sweeper.rb",
-     "rails/init.rb",
+     "lib/acts_as_audited/base.rb",
+     "lib/generators/audited_migration/USAGE",
+     "lib/generators/audited_migration/audited_migration_generator.rb",
+     "lib/generators/audited_migration/templates/migration.rb",
+     "lib/generators/audited_migration_update/USAGE",
+     "lib/generators/audited_migration_update/audited_migration_update_generator.rb",
+     "lib/generators/audited_migration_update/templates/migration.rb",
      "test/acts_as_audited_test.rb",
      "test/audit_sweeper_test.rb",
      "test/audit_test.rb",
