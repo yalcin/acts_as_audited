@@ -241,11 +241,18 @@ module CollectiveIdea #:nodoc:
             props = (self.to_yaml_properties.map{|y| y.strip} - ignore_properties)
             attributes_map = props.inject({}) do |acc, name| 
               name = name.gsub /@/, ''
-              if self.respond_to? name.to_sym
-                val = self.send name.to_sym
-                unless val.blank? || (val.is_a?(Array) && val.empty?)
-                  acc[name.to_sym] = val 
+              
+              begin
+                if self.respond_to? name.to_sym
+                  val = self.send name.to_sym
+                  unless val.blank? || (val.is_a?(Array) && val.empty?)
+                    acc[name.to_sym] = val 
+                  end
                 end
+              rescue Exception => exception 
+                error_msg = "Error serializing property #{name}; got exception #{exception.to_s} with backtrace #{exception.backtrace.inspect}"
+                p error_msg
+                logger.error error_msg
               end
               acc
             end
