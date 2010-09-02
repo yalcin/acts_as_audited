@@ -54,10 +54,7 @@ module CollectiveIdea #:nodoc:
         #     class User < ActiveRecord::Base
         #       acts_as_audited :except => :password
         #     end
-        # * +protect+ - If your model uses +attr_protected+, set this to false to prevent Rails from
-        #   raising an error.  If you declare +attr_accessibe+ before calling +acts_as_audited+, it
-        #   will automatically default to false.  You only need to explicitly set this if you are
-        #   calling +attr_accessible+ after.
+        # * +protect+ - set to false to raise an error if your model uses +attr_protected+, by default it is true
         #
         # * +require_comment+ - Ensures that audit_comment is supplied before
         #   any create, update or destroy operation.
@@ -76,7 +73,7 @@ module CollectiveIdea #:nodoc:
           class_inheritable_reader :auditing_full_model_enabled
           write_inheritable_attribute :auditing_full_model_enabled, (false || options[:full_model_enabled])
 
-          options = {:protect => accessible_attributes.nil?}.merge(options)
+          options = {:protect => true}.merge(options)
 
           class_inheritable_reader :non_audited_columns
           class_inheritable_reader :auditing_enabled
@@ -85,10 +82,10 @@ module CollectiveIdea #:nodoc:
             except = self.column_names - options[:only].flatten.map(&:to_s)
           else
             except = [self.primary_key, inheritance_column, 'lock_version',
-              'created_at', 'updated_at', 'created_on', 'updated_on']
+              'created_at', 'updated_at', 'created_on', 'updated_on', 'created_by', 'updated_by']
             except |= Array(options[:except]).collect(&:to_s) if options[:except]
           end
-          write_inheritable_attribute :non_audited_columns, except
+          write_inheritable_attribute :non_audited_columns, ['audits'].merge(except || [])
 
           if options[:comment_required]
             validates_presence_of :audit_comment
