@@ -85,7 +85,7 @@ module CollectiveIdea #:nodoc:
               'created_at', 'updated_at', 'created_on', 'updated_on', 'created_by', 'updated_by']
             except |= Array(options[:except]).collect(&:to_s) if options[:except]
           end
-          write_inheritable_attribute :non_audited_columns, ['audits'].merge(except || [])
+          write_inheritable_attribute :non_audited_columns, ['audits'] + (except || [])
 
           if options[:comment_required]
             validates_presence_of :audit_comment
