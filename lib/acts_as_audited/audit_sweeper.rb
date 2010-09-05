@@ -20,6 +20,7 @@ module CollectiveIdea #:nodoc:
 end
 
 class AuditSweeper < ActionController::Caching::Sweeper #:nodoc:
+  observe Audit
   def before_create(audit)
     audit.user ||= current_user
   end
