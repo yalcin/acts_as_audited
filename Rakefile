@@ -9,7 +9,7 @@ task :default => :test
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "acts_as_audited"
+    gem.name = "acts_as_audited_rails3"
     gem.summary = %Q{ActiveRecord extension that logs all changes to your models in an audits table}
     gem.description = %Q{ActiveRecord extension that logs all changes to your models in an audits table description}
     gem.email = "brandon@opensoul.org"
