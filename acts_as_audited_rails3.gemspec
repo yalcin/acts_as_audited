@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{acts_as_audited_rails3}
-  s.version = "1.1.1.4"
+  s.version = "1.1.1.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Brandon Keepers"]
@@ -39,10 +39,10 @@ Gem::Specification.new do |s|
     "doc/fr_method_index.html",
     "doc/index.html",
     "doc/rdoc-style.css",
-    "lib/acts_as_audited.rb",
-    "lib/acts_as_audited/audit.rb",
-    "lib/acts_as_audited/audit_sweeper.rb",
-    "lib/acts_as_audited/base.rb",
+    "lib/acts_as_audited_rails3.rb",
+    "lib/acts_as_audited_rails3/audit.rb",
+    "lib/acts_as_audited_rails3/audit_sweeper.rb",
+    "lib/acts_as_audited_rails3/base.rb",
     "lib/generators/audited_migration/USAGE",
     "lib/generators/audited_migration/audited_migration_generator.rb",
     "lib/generators/audited_migration/templates/migration.rb",
