@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{acts_as_audited}
-  s.version = "1.1.1.3"
+  s.version = "1.1.1.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Brandon Keepers"]
@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "acts_as_audited.gemspec",
+    "acts_as_audited_rails3.gemspec",
     "doc/classes/Audit.html",
     "doc/classes/CollectiveIdea/Acts/Audited/ClassMethods.html",
     "doc/classes/CollectiveIdea/Acts/Audited/InstanceMethods.html",
