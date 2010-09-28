@@ -14,6 +14,9 @@ class Audit < ActiveRecord::Base
 
   before_create :set_version_number, :set_audit_user
 
+  after_create :create_relations
+
+
   serialize :audit_changes
 
   cattr_accessor :audited_class_names
@@ -22,6 +25,16 @@ class Audit < ActiveRecord::Base
   def self.audited_classes
     self.audited_class_names.map(&:constantize)
   end
+
+
+  def create_relations
+    audit_changes.each { |k, v|
+      if k =~ /.*?_id/
+        AuditRelation.create(:audit_id => id, :affected_id => v, :affected_field => k)
+      end
+    }
+  end
+
 
   # All audits made during the block called will be recorded as made
   # by +user+. This method is hopefully threadsafe, making it ideal
@@ -88,7 +101,7 @@ class Audit < ActiveRecord::Base
     end
     block_given? ? result : attributes
   end
-  
+
   def self.assign_revision_attributes(record, attributes)
     attributes.each do |attr, val|
       if record.respond_to?("#{attr}=")
@@ -117,3 +130,8 @@ private
   end
 
 end
+
+class AuditRelations < ActiveRecord::Base
+  belongs_to :audit
+end
+
