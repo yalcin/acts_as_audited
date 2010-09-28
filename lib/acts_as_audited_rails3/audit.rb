@@ -29,7 +29,7 @@ class Audit < ActiveRecord::Base
 
   def create_relations
     audit_changes.each { |k, v|
-      if k =~ /.*?_id/
+      if k.to_s =~ /.*?_id/
         AuditRelation.create(:audit_id => id, :affected_id => v, :affected_field => k)
       end
     }
@@ -129,9 +129,5 @@ private
     nil # prevent stopping callback chains
   end
 
-end
-
-class AuditRelations < ActiveRecord::Base
-  belongs_to :audit
 end
 
