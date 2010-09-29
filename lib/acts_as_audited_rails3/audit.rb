@@ -12,6 +12,8 @@ class Audit < ActiveRecord::Base
   belongs_to :auditable, :polymorphic => true
   belongs_to :user, :polymorphic => true
 
+  has_many :audit_relations
+
   before_create :set_version_number, :set_audit_user
 
   after_create :create_relations
