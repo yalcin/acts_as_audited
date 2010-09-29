@@ -1,4 +1,4 @@
-class AuditRelations < ActiveRecord::Base
+class AuditRelation < ActiveRecord::Base
   belongs_to :audit
 end
 
